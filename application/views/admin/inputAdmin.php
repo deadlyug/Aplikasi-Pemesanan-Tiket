@@ -61,20 +61,22 @@
 							</tr>
 						</thead>
 						<tbody>
-							<?php foreach ($admin_list as $key){ ?>
-							<tr>
-							<td><?php echo $key->idUser ; ?></td>
-							<td><?php echo $key->name ; ?></td>
-							<td><?php echo $key->address ; ?></td>
-							<td><?php echo $key->phoneNumber ; ?></td>
-							<td><?php echo $key->email ; ?></td>
-							<td><?php echo $key->username ; ?></td>
-							<td><img src="<?php echo base_url();?>assets/imgEvent/<?php echo $key->pictureUser;?>" class="img-thumbnail" width="50"></td>
-							<td>
-								<a href="<?php echo site_url()?>/Admin/delete/<?php echo $key->idUser; ?>" class="btn btn-danger" onclick="return confirm('Are you sure to delete this data permanently?'); "><span class="fa fa-trash"></span></a>
-							</td>
-							</tr>
-							<?php } ?>
+							<?php if(!empty($admin_list)) : ?>
+								<?php foreach ($admin_list as $key){ ?>
+								<tr>
+								<td><?php echo $key->idUser ; ?></td>
+								<td><?php echo $key->name ; ?></td>
+								<td><?php echo $key->address ; ?></td>
+								<td><?php echo $key->phoneNumber ; ?></td>
+								<td><?php echo $key->email ; ?></td>
+								<td><?php echo $key->username ; ?></td>
+								<td><img src="<?php echo base_url();?>assets/imgEvent/<?php echo $key->pictureUser;?>" class="img-thumbnail" width="50"></td>
+								<td>
+									<a href="<?php echo site_url()?>/Admin/delete/<?php echo $key->idUser; ?>" class="btn btn-danger" onclick="return confirm('Are you sure to delete this data permanently?'); "><span class="fa fa-trash"></span></a>
+								</td>
+								</tr>
+								<?php } ?>
+							<?php endif; ?>
 						</tbody>
 					</table>
 				</div>

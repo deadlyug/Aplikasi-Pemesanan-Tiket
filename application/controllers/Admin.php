@@ -41,6 +41,7 @@ class Admin extends CI_Controller {
 
 		$this->load->model('InputAdminModel');
         $data["admin_list"] = $this->InputAdminModel->getAdmin();
+		// dd($data);
         $this->load->view('admin/header', $data);
         $this->load->view('admin/sidebar'); 
         $this->load->view('admin/inputAdmin', $data);
@@ -61,7 +62,7 @@ class Admin extends CI_Controller {
             echo validation_errors();
         }else{
                 $this->InputAdminModel->save();
-                echo "<script>alert('Successfully Created'); </script>";
+                // echo "<script>alert('Successfully Created'); </script>";
                 redirect('Admin','refresh');
         }
     }

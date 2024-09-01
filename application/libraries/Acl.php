@@ -84,21 +84,28 @@ class Acl {
 		
 		// if given path doesn't exists then, deny.
 		// otherwise, validates it.
-		if (isset($this->_rules[$path]))
-		{
-			// retrieve identified groups
-			$groups = array_keys($this->_rules[$path]);
-			$groups_to_test = explode(',', $group);
-			
-			array_walk($groups_to_test, "_remove_white_spaces");
-			
-			foreach ($groups_to_test as $g)
+		if ( !empty($this->_rules) && $path  ) {
+			$path = strtolower($path);
+			$this->_rules = array_change_key_case($this->_rules, CASE_LOWER);
+
+			if (isset($this->_rules[$path]))
 			{
-				$result = (in_array($g, $groups) && $this->_rules[$path][$g]) ? TRUE : FALSE;
-				if ($result) break;
-			}
-			
-		} // isset($this->_rules[$path])
+				// retrieve identified groups
+				$groups = array_keys($this->_rules[$path]);
+				// dd([$groups,$this->_rules,$path]);
+				$groups_to_test = explode(',', $group);
+				
+				array_walk($groups_to_test, "_remove_white_spaces");
+				
+				foreach ($groups_to_test as $g)
+				{
+					$result = (in_array($g, $groups) && $this->_rules[$path][$g]) ? TRUE : FALSE;
+					if ($result) break;
+				}
+				
+			} // isset($this->_rules[$path])
+		}
+
 
 		return $result;			
 	} // is_allowed

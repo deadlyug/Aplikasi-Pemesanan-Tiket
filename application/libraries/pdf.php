@@ -18,6 +18,7 @@
 */
 
 require_once APPPATH.'third_party/dompdf/autoload.inc.php';
+// require_once APPPATH.'third_party/dompdf-3.0.0/autoload.inc.php';
 
 use Dompdf\Dompdf;
 class Pdf extends DOMPDF

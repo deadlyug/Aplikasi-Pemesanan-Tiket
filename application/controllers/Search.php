@@ -5,9 +5,16 @@ class  Search extends CI_Controller {
 
 	public function searchAll()
 	{
-    	$session_data=$this->session->userdata('logged_in');
-		$data['username']=$session_data['username'];
-		$data['level']=$session_data['level'];
+		if($this->session->userdata('logged_in') !== null ){
+			$session_data=$this->session->userdata('logged_in');
+			$data['username']=$session_data['username'];
+			$data['level']=$session_data['level'];
+		}else{
+			$session_data=[];
+			$data['username']= null;
+			$data['level']= null;
+		}
+		
     	$this->load->model('SearchModel');
     	$this->load->model('EventScheduleModel');
         $data["artist_list"] = $this->EventScheduleModel->getArtistOption();
@@ -23,9 +30,16 @@ class  Search extends CI_Controller {
 
 	public function byCat($id)
 	{
-    	$session_data=$this->session->userdata('logged_in');
-		$data['username']=$session_data['username'];
-		$data['level']=$session_data['level'];
+		if($this->session->userdata('logged_in') !== null ){
+			$session_data=$this->session->userdata('logged_in');
+			$data['username']=$session_data['username'];
+			$data['level']=$session_data['level'];
+		}else{
+			$session_data=[];
+			$data['username']= null;
+			$data['level']= null;
+		}
+		
     	$this->load->model('SearchModel');
     	$this->load->model('EventScheduleModel');
         $data["artist_list"] = $this->EventScheduleModel->getArtistOption();
@@ -39,9 +53,16 @@ class  Search extends CI_Controller {
 	}
 	public function byArtist($id)
 	{
-    	$session_data=$this->session->userdata('logged_in');
-		$data['username']=$session_data['username'];
-		$data['level']=$session_data['level'];
+		if($this->session->userdata('logged_in') !== null ){
+			$session_data=$this->session->userdata('logged_in');
+			$data['username']=$session_data['username'];
+			$data['level']=$session_data['level'];
+		}else{
+			$session_data=[];
+			$data['username']= null;
+			$data['level']= null;
+		}
+
     	$this->load->model('SearchModel');
     	$this->load->model('EventScheduleModel');
         $data["artist_list"] = $this->EventScheduleModel->getArtistOption();
@@ -55,9 +76,15 @@ class  Search extends CI_Controller {
 
     public function result($id)
     {
-        $session_data=$this->session->userdata('logged_in');
-        $data['username']=$session_data['username'];
-        $data['level']=$session_data['level'];
+		if($this->session->userdata('logged_in') !== null ){
+			$session_data=$this->session->userdata('logged_in');
+			$data['username']=$session_data['username'];
+			$data['level']=$session_data['level'];
+		}else{
+			$session_data=[];
+			$data['username']= null;
+			$data['level']= null;
+		}
         $this->load->model('SearchModel');
         $this->load->model('EventScheduleModel');
         $data["artist_list"] = $this->EventScheduleModel->getArtistOption();
@@ -70,9 +97,15 @@ class  Search extends CI_Controller {
 
     public function detailEvent($id)
     {
-        $session_data=$this->session->userdata('logged_in');
-        $data['username']=$session_data['username'];
-        $data['level']=$session_data['level'];
+		if($this->session->userdata('logged_in') !== null ){
+			$session_data=$this->session->userdata('logged_in');
+			$data['username']=$session_data['username'];
+			$data['level']=$session_data['level'];
+		}else{
+			$session_data=[];
+			$data['username']= null;
+			$data['level']= null;
+		}
         $this->load->model('SearchModel');
         $this->load->model('EventScheduleModel');
 
@@ -93,27 +126,36 @@ class  Search extends CI_Controller {
 
     public function detailTicket($id,$idPrice)
     {
-         $tickets = $this->input->post('subject');
-        if(!empty($tickets)){
-                $data['numberTicket'] = $tickets;
-                $session_array = array('qty'=>$tickets);
-               $this->session->set_userdata('count', $session_array);
-        
-        }
+		if($this->session->userdata('logged_in') !== null ){
+			$tickets = $this->input->post('subject');
+			if(!empty($tickets)){
+				$data['numberTicket'] = $tickets;
+				$session_array = array('qty'=>$tickets);
+				$this->session->set_userdata('count', $session_array);
+			}
+			$session_data=$this->session->userdata('count');
+			if( !$session_data ){
+				$session_data['qty'] = 1;
+			}else{
+				$session_data['qty'] = $session_data['qty'];
+			}
 
-        $session_data=$this->session->userdata('count');
-        $data['numberTicket'] = $session_data['qty'] ;  
+			$session_data=$this->session->userdata('logged_in');
+			$data['username']=$session_data['username'];
+			$data['level']=$session_data['level'];
+		}else {
+			$session_data=[];
+			$data['username']= null;
+			$data['level']= null;
+		}
 
-        $session_data=$this->session->userdata('logged_in');
-        $data['username']=$session_data['username'];
-        $data['level']=$session_data['level'];
         $this->load->model('SearchModel');
         $this->load->model('EventScheduleModel');
         $data["artist_list"] = $this->EventScheduleModel->getArtistOption();
         $data["cat_list"] = $this->EventScheduleModel->getCatOption();
         $data['detail']    =   $this->SearchModel->detailTickets($idPrice);
+		// $data['detail']['numberTicket'] = $tickets;
         $data['search']    =   $this->SearchModel->detailAll($id);
-
         $this->load->view('user/headerAllEvent',$data);
         $this->load->view('user/detailTicket',$data);
 

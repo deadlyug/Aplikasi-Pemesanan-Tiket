@@ -6,6 +6,8 @@ services:
     image: tiket
     container_name: tiket
     restart: unless-stopped
+    volumes:
+      - .:/var/www/tiket
     ports:
       - 8083:80
     #  - 8443:443
